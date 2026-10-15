@@ -1,0 +1,18 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding: 2rem 2.5rem;
+}
+
+.progress {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  border-radius: 0;
+}
