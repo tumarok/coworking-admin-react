@@ -95,5 +95,10 @@ export default tseslint.config(
     files: ['*.config.{js,ts}', 'server/**/*.ts', 'mock/**/*.mjs', 'e2e/**/*.ts'],
     languageOptions: { globals: { ...globals.node } },
   },
+  {
+    // Playwright fixtures receive a `use` callback; it is not a React hook.
+    files: ['e2e/**/*.ts'],
+    rules: { 'react-hooks/rules-of-hooks': 'off' },
+  },
   prettier,
 );

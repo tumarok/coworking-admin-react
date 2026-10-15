@@ -28,5 +28,8 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    // The shared UI chunk is the PrimeReact component set (~215 kB gzipped). Every page uses it,
+    // it loads once and stays cached, and splitting it would not make the total smaller.
+    chunkSizeWarningLimit: 800,
   },
 });

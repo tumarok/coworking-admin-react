@@ -20,8 +20,10 @@
     "vite.config.ts",
     "vitest.config.ts",
     "steiger.config.ts",
+    "playwright.config.ts",
     "eslint.config.js",
     "server",
-    "mock"
+    "mock",
+    "e2e"
   ]
 }
