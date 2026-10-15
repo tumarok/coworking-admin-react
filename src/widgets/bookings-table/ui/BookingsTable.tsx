@@ -52,6 +52,7 @@ export const BookingsTable = ({
     {selection ? <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} /> : null}
     <Column
       header="When"
+      style={{ whiteSpace: 'nowrap' }}
       body={(b: Booking) => (
         <Link to={ROUTES.booking(b.id)}>{formatTimeRange(b.startsAt, b.endsAt)}</Link>
       )}

@@ -51,6 +51,7 @@ export const EntityTable = <T extends { id: string }>({
     loading,
     emptyMessage,
     className: styles.table,
+    tableStyle: { minWidth: '48rem' },
     'aria-label': caption,
     paginatorTemplate:
       'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport',
