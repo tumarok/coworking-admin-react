@@ -1,0 +1,23 @@
+# Full demo: `docker compose up --build` builds both images locally,
+# `docker compose pull && docker compose up` runs the ones published to GHCR.
+# Then open http://localhost:8080 and sign in with admin@coworking.test / demo1234.
+services:
+  api:
+    image: ghcr.io/${GHCR_OWNER:-tumarok}/coworking-admin-api:latest
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    environment:
+      MOCK_LATENCY_MS: '150'
+
+  web:
+    image: ghcr.io/${GHCR_OWNER:-tumarok}/coworking-admin:latest
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+    environment:
+      API_UPSTREAM: http://api:4010
+    ports:
+      - '8080:80'
+    depends_on:
+      - api
