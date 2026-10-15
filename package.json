@@ -11,6 +11,7 @@
     "dev": "vite",
     "mock": "tsx server/index.ts",
     "mock:watch": "tsx watch server/index.ts",
+    "mock:simple": "node mock/server.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.node.json",

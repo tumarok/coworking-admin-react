@@ -13,13 +13,15 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "allowJs": true
   },
   "include": [
     "vite.config.ts",
     "vitest.config.ts",
     "steiger.config.ts",
     "eslint.config.js",
-    "server"
+    "server",
+    "mock"
   ]
 }

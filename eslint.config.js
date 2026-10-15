@@ -92,7 +92,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['*.config.{js,ts}', 'server/**/*.ts', 'e2e/**/*.ts'],
+    files: ['*.config.{js,ts}', 'server/**/*.ts', 'mock/**/*.mjs', 'e2e/**/*.ts'],
     languageOptions: { globals: { ...globals.node } },
   },
   prettier,
