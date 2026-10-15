@@ -14,4 +14,5 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { label: 'Locations', icon: 'pi pi-building', to: ROUTES.locations },
   { label: 'Rooms', icon: 'pi pi-th-large', to: ROUTES.rooms },
   { label: 'Members', icon: 'pi pi-users', to: ROUTES.members },
+  { label: 'Bookings', icon: 'pi pi-calendar', to: ROUTES.bookings },
 ];

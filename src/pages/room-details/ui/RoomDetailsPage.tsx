@@ -2,6 +2,8 @@ import { Button } from 'primereact/button';
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
+import { BookingsTable } from '@/widgets/bookings-table';
+import { BookingFormDialog } from '@/features/booking-upsert';
 import { RoomFormDialog } from '@/features/room-upsert';
 import {
   AmenityList,
@@ -9,10 +11,13 @@ import {
   useDeleteRoomMutation,
   useGetRoomQuery,
 } from '@/entities/room';
+import { useGetBookingsQuery } from '@/entities/booking';
 import { errorMessage, errorStatus } from '@/shared/api';
 import { ROUTES } from '@/shared/config';
-import { formatMoney, humanize, notify } from '@/shared/lib';
+import { formatMoney, humanize, notify, useListParams } from '@/shared/lib';
 import { DeleteButton, DetailsList, EmptyState, PageHeader, PageLoader } from '@/shared/ui';
+
+const todayIso = () => new Date().toISOString().slice(0, 10);
 
 export const RoomDetailsPage = () => {
   const { id = '' } = useParams();
@@ -20,6 +25,12 @@ export const RoomDetailsPage = () => {
   const [remove] = useDeleteRoomMutation();
   const [editing, setEditing] = useState(false);
   const navigate = useNavigate();
+  const [booking, setBooking] = useState(false);
+  const bookings = useListParams();
+  const { data: bookingPage, isFetching: bookingsLoading } = useGetBookingsQuery(
+    { ...bookings.query, roomId: id, from: todayIso() },
+    { skip: !id },
+  );
 
   if (isLoading) return <PageLoader />;
   if (!room) {
@@ -70,7 +81,36 @@ export const RoomDetailsPage = () => {
           ]}
         />
       </section>
+      <div
+        className="actions-row"
+        style={{ justifyContent: 'space-between', alignItems: 'center' }}
+      >
+        <h2 className="section-title">Upcoming bookings</h2>
+        <Button
+          label="Book this room"
+          icon="pi pi-calendar-plus"
+          text
+          onClick={() => setBooking(true)}
+        />
+      </div>
+      <BookingsTable
+        showActions
+        data={bookingPage}
+        page={bookings.page}
+        limit={bookings.limit}
+        loading={bookingsLoading}
+        onPage={(page, limit) =>
+          limit !== bookings.limit ? bookings.setLimit(limit) : bookings.setPage(page)
+        }
+        hideRoom
+        emptyMessage="No bookings yet."
+      />
       <RoomFormDialog room={room} visible={editing} onHide={() => setEditing(false)} />
+      <BookingFormDialog
+        defaults={{ roomId: id }}
+        visible={booking}
+        onHide={() => setBooking(false)}
+      />
     </>
   );
 };
