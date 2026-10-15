@@ -54,6 +54,20 @@ export const routes = [
           (m) => m.LocationDetailsPage,
         ),
       },
+      {
+        path: ROUTES.rooms,
+        lazy: lazyPage(
+          () => import('@/pages/rooms'),
+          (m) => m.RoomsPage,
+        ),
+      },
+      {
+        path: ROUTES.room(':id'),
+        lazy: lazyPage(
+          () => import('@/pages/room-details'),
+          (m) => m.RoomDetailsPage,
+        ),
+      },
       { path: '*', Component: NotFoundPage },
     ],
   },

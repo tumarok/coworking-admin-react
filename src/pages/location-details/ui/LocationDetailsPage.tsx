@@ -2,15 +2,18 @@ import { Button } from 'primereact/button';
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
+import { RoomsTable } from '@/widgets/rooms-table';
 import { LocationFormDialog } from '@/features/location-upsert';
+import { RoomFormDialog } from '@/features/room-upsert';
 import {
   LocationStatusTag,
   useDeleteLocationMutation,
   useGetLocationQuery,
 } from '@/entities/location';
+import { useGetRoomsQuery } from '@/entities/room';
 import { errorMessage, errorStatus } from '@/shared/api';
 import { ROUTES } from '@/shared/config';
-import { notify } from '@/shared/lib';
+import { notify, useListParams } from '@/shared/lib';
 import { DeleteButton, DetailsList, EmptyState, PageHeader, PageLoader } from '@/shared/ui';
 
 export const LocationDetailsPage = () => {
@@ -18,7 +21,13 @@ export const LocationDetailsPage = () => {
   const { data: location, isLoading, error } = useGetLocationQuery(id);
   const [remove] = useDeleteLocationMutation();
   const [editing, setEditing] = useState(false);
+  const [addingRoom, setAddingRoom] = useState(false);
   const navigate = useNavigate();
+  const rooms = useListParams();
+  const { data: roomPage, isFetching: roomsLoading } = useGetRoomsQuery(
+    { ...rooms.query, locationId: id },
+    { skip: !id },
+  );
 
   if (isLoading) return <PageLoader />;
   if (!location) {
@@ -65,7 +74,29 @@ export const LocationDetailsPage = () => {
           ]}
         />
       </section>
+      <div
+        className="actions-row"
+        style={{ justifyContent: 'space-between', alignItems: 'center' }}
+      >
+        <h2 className="section-title">Rooms</h2>
+        <Button label="Add room" icon="pi pi-plus" text onClick={() => setAddingRoom(true)} />
+      </div>
+      <RoomsTable
+        data={roomPage}
+        page={rooms.page}
+        limit={rooms.limit}
+        loading={roomsLoading}
+        onPage={(page, limit) =>
+          limit !== rooms.limit ? rooms.setLimit(limit) : rooms.setPage(page)
+        }
+        hideLocation
+      />
       <LocationFormDialog location={location} visible={editing} onHide={() => setEditing(false)} />
+      <RoomFormDialog
+        locationId={location.id}
+        visible={addingRoom}
+        onHide={() => setAddingRoom(false)}
+      />
     </>
   );
 };
