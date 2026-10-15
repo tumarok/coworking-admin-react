@@ -1,5 +1,6 @@
 export {
   bookingApi,
+  useBulkUpdateBookingsMutation,
   useChangeBookingStatusMutation,
   useCreateBookingMutation,
   useGetBookingQuery,

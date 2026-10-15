@@ -1,8 +1,9 @@
 import { Button } from 'primereact/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import { BookingsTable } from '@/widgets/bookings-table';
+import { BulkActionsBar } from '@/features/booking-bulk-actions';
 import { BookingFormDialog } from '@/features/booking-upsert';
 import { RoomFormDialog } from '@/features/room-upsert';
 import {
@@ -12,7 +13,7 @@ import {
   useGetRoomQuery,
 } from '@/entities/room';
 import { useGetBookingsQuery } from '@/entities/booking';
-import { errorMessage, errorStatus } from '@/shared/api';
+import { type Booking, errorMessage, errorStatus } from '@/shared/api';
 import { ROUTES } from '@/shared/config';
 import { formatMoney, humanize, notify, useListParams } from '@/shared/lib';
 import { DeleteButton, DetailsList, EmptyState, PageHeader, PageLoader } from '@/shared/ui';
@@ -31,6 +32,9 @@ export const RoomDetailsPage = () => {
     { ...bookings.query, roomId: id, from: todayIso() },
     { skip: !id },
   );
+  const [selected, setSelected] = useState<Booking[]>([]);
+  const bookingsKey = JSON.stringify(bookings.query);
+  useEffect(() => setSelected([]), [bookingsKey, id]);
 
   if (isLoading) return <PageLoader />;
   if (!room) {
@@ -86,6 +90,11 @@ export const RoomDetailsPage = () => {
         style={{ justifyContent: 'space-between', alignItems: 'center' }}
       >
         <h2 className="section-title">Upcoming bookings</h2>
+        {selected.length > 0 ? (
+          <div className="actions-row">
+            <BulkActionsBar selected={selected} onDone={() => setSelected([])} />
+          </div>
+        ) : null}
         <Button
           label="Book this room"
           icon="pi pi-calendar-plus"
@@ -95,6 +104,8 @@ export const RoomDetailsPage = () => {
       </div>
       <BookingsTable
         showActions
+        selection={selected}
+        onSelectionChange={setSelected}
         data={bookingPage}
         page={bookings.page}
         limit={bookings.limit}

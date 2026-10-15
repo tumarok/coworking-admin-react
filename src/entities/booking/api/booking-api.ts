@@ -3,6 +3,8 @@ import {
   type BookingInput,
   type BookingListQuery,
   type BookingStatus,
+  type BulkBookingRequest,
+  type BulkBookingResult,
   LIST_ID,
   type Page,
   baseApi,
@@ -59,6 +61,14 @@ export const bookingApi = baseApi
           DASHBOARD_TAG,
         ],
       }),
+      bulkUpdateBookings: build.mutation<BulkBookingResult, BulkBookingRequest>({
+        query: (body) => ({ url: '/bookings/bulk', method: 'POST', body }),
+        invalidatesTags: (_result, _error, { ids }) => [
+          { type: TAG, id: LIST_ID },
+          ...ids.map((id) => ({ type: TAG, id })),
+          DASHBOARD_TAG,
+        ],
+      }),
     }),
   });
 
@@ -68,4 +78,5 @@ export const {
   useCreateBookingMutation,
   useUpdateBookingMutation,
   useChangeBookingStatusMutation,
+  useBulkUpdateBookingsMutation,
 } = bookingApi;

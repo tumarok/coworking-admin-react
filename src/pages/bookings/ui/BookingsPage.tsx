@@ -1,14 +1,15 @@
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { BookingsTable } from '@/widgets/bookings-table';
+import { BulkActionsBar } from '@/features/booking-bulk-actions';
 import { BookingFormDialog } from '@/features/booking-upsert';
 import { useGetBookingsQuery } from '@/entities/booking';
 import { useGetLocationsQuery } from '@/entities/location';
-import { BOOKING_STATUSES, type BookingListQuery } from '@/shared/api';
+import { BOOKING_STATUSES, type Booking, type BookingListQuery } from '@/shared/api';
 import { ROUTES } from '@/shared/config';
 import { enumOptions, useListParams } from '@/shared/lib';
 import { ListToolbar, PageHeader } from '@/shared/ui';
@@ -23,6 +24,11 @@ export const BookingsPage = () => {
   const [creating, setCreating] = useState(false);
   const navigate = useNavigate();
   const { from, to, status, locationId } = list.filters;
+  const [selected, setSelected] = useState<Booking[]>([]);
+
+  // A selection belongs to the rows on screen; another page or filter starts fresh.
+  const queryKey = JSON.stringify(list.query);
+  useEffect(() => setSelected([]), [queryKey]);
 
   return (
     <>
@@ -37,6 +43,11 @@ export const BookingsPage = () => {
         searchPlaceholder="Search member or room"
         onReset={list.reset}
         canReset={Boolean(list.q || from || to || status || locationId)}
+        actions={
+          selected.length > 0 ? (
+            <BulkActionsBar selected={selected} onDone={() => setSelected([])} />
+          ) : null
+        }
       >
         <InputText
           type="date"
@@ -72,6 +83,8 @@ export const BookingsPage = () => {
       </ListToolbar>
       <BookingsTable
         showActions
+        selection={selected}
+        onSelectionChange={setSelected}
         data={data}
         page={list.page}
         limit={list.limit}
