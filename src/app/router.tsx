@@ -68,6 +68,20 @@ export const routes = [
           (m) => m.RoomDetailsPage,
         ),
       },
+      {
+        path: ROUTES.members,
+        lazy: lazyPage(
+          () => import('@/pages/members'),
+          (m) => m.MembersPage,
+        ),
+      },
+      {
+        path: ROUTES.member(':id'),
+        lazy: lazyPage(
+          () => import('@/pages/member-details'),
+          (m) => m.MemberDetailsPage,
+        ),
+      },
       { path: '*', Component: NotFoundPage },
     ],
   },
