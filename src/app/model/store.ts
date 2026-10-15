@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
+import { sessionSlice } from '@/entities/session';
 import { baseApi } from '@/shared/api';
 
 import { errorListener } from './error-listener';
 
 const rootReducer = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
+  [sessionSlice.name]: sessionSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

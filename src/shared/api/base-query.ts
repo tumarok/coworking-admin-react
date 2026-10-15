@@ -41,6 +41,7 @@ export const baseQuery: BaseQueryFn<
   const error: FetchBaseQueryError = result.error;
   // A 401 on anything but the login form means the token is no longer valid.
   if (error.status === 401 && !isLogin(args)) {
+    sessionToken.clear();
     api.dispatch(sessionExpired());
   }
   return { ...result, error: extraOptions?.silent ? { ...error, silent: true } : error };

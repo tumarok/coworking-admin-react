@@ -15,6 +15,7 @@ export default mergeConfig(
             name: 'web',
             environment: 'jsdom',
             setupFiles: ['./test/setup.ts'],
+            restoreMocks: true,
             include: ['src/**/*.test.{ts,tsx}'],
             css: { modules: { classNameStrategy: 'non-scoped' } },
           },

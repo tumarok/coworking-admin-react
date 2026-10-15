@@ -1,0 +1,32 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+
+  :global(.p-inputtext),
+  :global(.p-dropdown),
+  :global(.p-multiselect),
+  :global(.p-calendar),
+  :global(.p-inputnumber),
+  :global(.p-password) {
+    width: 100%;
+  }
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.required {
+  margin-left: 0.25rem;
+  color: #dc2626;
+}
+
+.error {
+  color: #dc2626;
+}
+
+.hint {
+  color: var(--text-muted);
+}
