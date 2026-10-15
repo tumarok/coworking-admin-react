@@ -1,4 +1,5 @@
 import { PrimeReactProvider } from 'primereact/api';
+import { ConfirmDialog } from 'primereact/confirmdialog';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router/dom';
 
@@ -13,6 +14,7 @@ export const App = () => (
   <Provider store={store}>
     <PrimeReactProvider value={{ ripple: true }}>
       <ToastHost />
+      <ConfirmDialog />
       <RouterProvider router={router} />
     </PrimeReactProvider>
   </Provider>

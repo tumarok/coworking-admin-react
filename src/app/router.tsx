@@ -1,3 +1,4 @@
+import type { ComponentType } from 'react';
 import { createBrowserRouter } from 'react-router';
 
 import { NotFoundPage } from '@/pages/not-found';
@@ -8,11 +9,19 @@ import { AppLayout } from './layouts/AppLayout';
 import { RequireAuth } from './layouts/RequireAuth';
 import { RouteError } from './layouts/RouteError';
 
-/** Pages are split into their own chunks and loaded on first visit. */
+/** A page in its own chunk, loaded on first visit. */
+const lazyPage =
+  <M,>(load: () => Promise<M>, pick: (module: M) => ComponentType) =>
+  () =>
+    load().then((module) => ({ Component: pick(module) }));
+
 export const routes = [
   {
     path: ROUTES.login,
-    lazy: () => import('@/pages/login').then((m) => ({ Component: m.LoginPage })),
+    lazy: lazyPage(
+      () => import('@/pages/login'),
+      (m) => m.LoginPage,
+    ),
     hydrateFallbackElement: <PageLoader />,
   },
   {
@@ -26,7 +35,24 @@ export const routes = [
     children: [
       {
         index: true,
-        lazy: () => import('@/pages/dashboard').then((m) => ({ Component: m.DashboardPage })),
+        lazy: lazyPage(
+          () => import('@/pages/dashboard'),
+          (m) => m.DashboardPage,
+        ),
+      },
+      {
+        path: ROUTES.locations,
+        lazy: lazyPage(
+          () => import('@/pages/locations'),
+          (m) => m.LocationsPage,
+        ),
+      },
+      {
+        path: ROUTES.location(':id'),
+        lazy: lazyPage(
+          () => import('@/pages/location-details'),
+          (m) => m.LocationDetailsPage,
+        ),
       },
       { path: '*', Component: NotFoundPage },
     ],

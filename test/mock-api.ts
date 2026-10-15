@@ -12,3 +12,6 @@ export const installMockApi = () => {
   server.use(...createMswHandlers(api));
   return api;
 };
+
+/** Requests go out with a valid demo token, as after a real sign-in. */
+export const signIn = () => sessionStorage.setItem('coworking-admin.token', 'demo-token.usr_admin');

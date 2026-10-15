@@ -10,6 +10,9 @@ type Patch = Record<string, string | number | null | undefined>;
  * bookmarked and restored with the back button. `query` is ready to pass to a list endpoint:
  * empty filters are dropped. RTK Query keys its cache by value, so a new object per render
  * does not trigger a new request.
+ *
+ * Filter values come from the URL, so they are plain strings: callers cast `query` to the
+ * endpoint's query type, and the server validates the values like any other input.
  */
 export const useListParams = <F extends string>(
   filterKeys: readonly F[] = [],

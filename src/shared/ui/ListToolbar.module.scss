@@ -1,0 +1,25 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+
+  :global(.p-dropdown),
+  :global(.p-calendar) {
+    min-width: 11rem;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}

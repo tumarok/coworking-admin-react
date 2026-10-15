@@ -37,3 +37,7 @@ export const humanize = (value: string): string => {
   const spaced = value.replace(/_/g, ' ');
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 };
+
+/** Dropdown options for an enum: value as-is, label humanized. */
+export const enumOptions = <V extends string>(values: readonly V[]) =>
+  values.map((value) => ({ value, label: humanize(value) }));
