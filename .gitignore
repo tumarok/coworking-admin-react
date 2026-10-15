@@ -12,6 +12,10 @@ test-results/
 .env.local
 .env.*.local
 
+# local tool state
+.claude/settings.local.json
+.playwright-mcp/
+
 # editors and OS
 .idea/
 .vscode/*

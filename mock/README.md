@@ -8,7 +8,7 @@ Two interchangeable implementations of the same REST contract (`/api/v1`). Pick 
 | Needs    | Node.js only, no `npm install`                       | project dependencies (tsx, zod, faker)             |
 | Contract | hand-written checks                                  | the Zod schemas in `src/shared/api/contract`       |
 | Extras   | —                                                    | MSW handlers (`server/msw.ts`) for component tests |
-| Good for | copying into another frontend, quick demos           | this repo's tests, e2e and Docker image            |
+| Good for | copying into another frontend, demos, Docker image   | this repo's component tests and e2e                |
 
 Both listen on `http://localhost:4010/api/v1` by default, keep data in memory and reset on restart
 (or `POST /api/v1/__reset`). Sign in with `admin@coworking.test` / `demo1234`.
