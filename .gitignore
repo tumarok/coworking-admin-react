@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+
+# build and test output
+dist/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# local env
+.env.local
+.env.*.local
+
+# editors and OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+
+# logs
+npm-debug.log*
