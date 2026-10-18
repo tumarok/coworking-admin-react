@@ -69,3 +69,11 @@ wall-clock in the location's time zone (`@/shared/lib/timezone`).
   explaining why, no trailers.
 - Demo sign-in: `admin@coworking.test` / `demo1234`.
 - Browser checks: the Playwright server in `.mcp.json` writes to `.playwright-mcp/` (git-ignored).
+
+## Claude Code setup
+
+- Skills: `verify` (the gates, when e2e is required, reading failures) and `add-feature` (recipe).
+- Agents: `reviewer` (read-only review of the diff) and `feature-builder` (builds, then verifies).
+- Hook: `.claude/hooks/format.mjs` runs the local Prettier on every file Claude edits or writes.
+- `.claude/settings.json` allows the project scripts and read-only git; keep personal overrides in
+  `.claude/settings.local.json` (git-ignored).
